@@ -37,3 +37,24 @@ stages:
         containerRegistry: $(dockerRegistryServiceConnection)
         tags: |
           $(tag)
+
+- stage: deploy_container_app
+  displayName: Deploy BuildImage to Container App
+  dependsOn: [Build]
+  jobs:
+    - job: BuildDeploy
+      steps:
+        - task: AzureContainerApps@1  # Use AzureContainerApps@1 task
+          displayName: Build and Deploy to Container App
+          inputs:
+            azureSubscription: 'Scrumbanai Container App'  # Replace with your subscription name
+            acrName: 'Scrumban'  # Replace with your ACR name
+            acrUsername: 'Scrumban'  # Replace with your ACR username
+            acrPassword: '$(ACR_PASSWORD)'  # Reference password from pipeline variable
+           
+            dockerfilePath: '$(Build.SourcesDirectory)/app/' # Replace with your Dockerfile path
+            imageToBuild: 'Dockerfile'                    # Replace with your Dockerfile name
+            imageToDeploy: 'scrumban.azurecr.io/scrumbanaipipelinesjavascriptdocker:$(tag)'  # Use existing image
+            containerAppName: 'scrumbancontainer'
+            resourceGroup: 'Scrumban_Docker'
+
