@@ -54,7 +54,7 @@ stages:
            
             dockerfilePath: '$(Build.SourcesDirectory)/app/' # Replace with your Dockerfile path
             imageToBuild: 'Dockerfile'                    # Replace with your Dockerfile name
-            imageToDeploy: 'scrumban.azurecr.io/scrumbanaipipelinesjavascriptdocker:$(tag)'  # Use existing image
+            imageToDeploy: 'scrumban.azurecr.io/dockerdemo:$(tag)'  # Use existing image
             containerAppName: 'scrumbancontainer'
             resourceGroup: 'Scrumban_Docker'
 
